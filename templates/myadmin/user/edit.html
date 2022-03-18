@@ -18,18 +18,18 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-                <h2 class="box-title"> <span class="glyphicon glyphicon-calendar" aria-hidden="true">添加员工信息</span></h2>
+                <h2 class="box-title"> <span class="glyphicon glyphicon-calendar" aria-hidden="true">修改员工信息</span></h2>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" action="{% url 'myadmin_userinsert' %}" method="post">
+            <form class="form-horizontal" action="{% url 'myadmin_userupdate' user.id %}" method="post">
                 {% csrf_token %}
               <div class="box-body">
                 <div class="form-group">
                   <label for="input1" class="col-sm-2 control-label">用户名：</label>
 
                   <div class="col-sm-4">
-                    <input type="text" name="username" class="form-control" id="input1" placeholder="请输入用户名">
+                    <input type="text" name="username" class="form-control" id="input1" value="{{ user.username }}" disabled readonly>
                   </div>
                 </div>
               </div>
@@ -38,33 +38,16 @@
                   <label for="input" class="col-sm-2 control-label">昵称：</label>
 
                   <div class="col-sm-4">
-                    <input type="text" name="nickname" class="form-control" id="nickname" placeholder="请输入昵称">
-                  </div>
-                </div>
-              </div>
-                <div class="box-body">
-                <div class="form-group">
-                  <label for="input" class="col-sm-2 control-label">密码：</label>
-
-                  <div class="col-sm-4">
-                    <input type="password" name="password_salt" class="form-control" id="password" placeholder="请输入密码">
-                  </div>
-                </div>
-              </div>
-                <div class="box-body">
-                <div class="form-group">
-                  <label for="input" class="col-sm-2 control-label">再次输入密码：</label>
-
-                  <div class="col-sm-4">
-                    <input type="password" name="repassword_salt" class="form-control" id="password" placeholder="请输入密码">
+                    <input type="text" name="nickname" class="form-control" id="nickname" value="{{ user.nickname }}">
                   </div>
                 </div>
               </div>
                 <div class="box-body">
                 <div class="form-group">
                   <label for="input" class="col-sm-2 control-label">用户权限：</label>
-                    <input type="radio" name="status" value="6" checked>普通用户
-                    <input type="radio" name="status" value="1">管理员
+                    <input type="radio" name="status" value="1" checked>普通用户
+                    <input type="radio" name="status" value="6">管理员
+                    <input type="radio" name="status" value="2">禁用
                 </div>
               </div>
               <!-- /.box-body -->

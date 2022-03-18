@@ -4,7 +4,7 @@ from django.db import models
 
 class User(models.Model):
     id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=32)
+    username = models.CharField(max_length=32,unique=True)
     nickname = models.CharField(max_length=32)
     password_hash = models.CharField(max_length=100)
     password_salt = models.CharField(max_length=50)
@@ -17,4 +17,5 @@ class User(models.Model):
 
     class Meta:
         db_table = 'user'
+        ordering = ['id']
 

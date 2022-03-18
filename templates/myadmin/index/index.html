@@ -82,3 +82,27 @@
     </section>
     <!-- /.content -->
 {% endblock %}
+
+{% block name1 %}
+{{ login_user.username }}
+{% endblock %}
+
+{% block name2 %}
+{{ login_user.username }}-
+    {% if login_user.status == 6 %}
+管理员
+        {% else %}会员
+{% endif %}
+{% endblock %}
+
+{% block name3 %}
+{{ login_user.username }}-
+    {% if login_user.status == 6 %}
+<font color="red">管理员</font>
+        {% else %}会员
+{% endif %}
+{% endblock %}
+
+{% block addtime %}
+{{ login_user.create_at }}
+{% endblock %}
