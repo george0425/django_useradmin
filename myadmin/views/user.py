@@ -5,6 +5,7 @@
 
 from django.shortcuts import render,redirect,reverse
 from myadmin.models import User
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -31,7 +32,7 @@ def index(request,page_index=1):
         page_list = page.page_range
         user_list = page.page(int(page_index))
         # 登录用户的个人信息
-        user_name = request.session['adminuser']
+        user_name = request.session.get('username')
         login_user = User.objects.get(username=user_name)
         context = {"user_list":user_list,'page_list':page_list,"cur_page":page_index,'tail':tail,"login_user":login_user}
         return render(request,'myadmin/user/index.html',context=context)
@@ -47,16 +48,14 @@ def insert(request):
     try:
         username = request.POST['username']
         nickname = request.POST['nickname']
-        if not User.objects.filter(username=username).count():
+        if not User.objects.filter(username=username).exists():
+
+            password = request.POST['password']
+            # User.objects.create(username=username,nickname=nickname,status=request.POST["status"],password=password)
             ob = User()
+            ob.set_password(password)
             ob.username = username
             ob.nickname = nickname
-            n = random.randint(100000, 999999)
-            password = request.POST['password'] + str(n)
-            md5 = hashlib.md5()
-            md5.update(password.encode('utf-8'))
-            ob.password_hash = md5.hexdigest()
-            ob.password_salt = n
             ob.status = request.POST["status"]
             ob.save()
             return redirect(reverse('myadmin_userindex',args=(1,)))
@@ -75,7 +74,7 @@ def delete(request):
 def do_delete(request,uid):
     try:
         ob = User.objects.filter(id=uid)
-        ob.update(status = 9)
+        ob.delete()
         return redirect(reverse('myadmin_userindex',args=(1,)))
     except Exception as e:
         return HttpResponse(e)

@@ -13,7 +13,9 @@ class ShopMiddleware(object):
 
     def __call__(self, request):
         path = request.path
-        url_list = [reverse('myadmin_login'),reverse('myadmin_dologin'),reverse('myadmin_logout')]
+        url_list = [reverse('myadmin_login'),
+                    reverse('myadmin_dologin'),reverse('myadmin_logout'),
+                    reverse('myadmin_verify')]
         if re.match(r"^/myadmin",path) and (path not in url_list):
             if "adminuser" not in request.session:
                 return redirect(reverse('myadmin_login'))

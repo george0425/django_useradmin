@@ -17,6 +17,6 @@ urlpatterns = [
     path('update/<int:uid>',user.update,name='myadmin_userupdate'),
     path('login',index.login,name='myadmin_login'),
     path('dologin',index.dologin,name='myadmin_dologin'),
-    path('logout',index.logout,name='myadmin_logout'),
-
+    path('logout',index.dologout,name='myadmin_logout'),
+    path('verify',index.verify,name='myadmin_verify'),
 ]

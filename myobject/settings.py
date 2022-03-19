@@ -50,10 +50,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'myadmin.shopmiddleware.ShopMiddleware',
+    #'myadmin.shopmiddleware.ShopMiddleware',
 ]
 
 ROOT_URLCONF = 'myobject.urls'
+
+LOGIN_URL = "myadmin_login"
 
 TEMPLATES = [
     {
@@ -89,6 +91,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'myadmin.user'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
