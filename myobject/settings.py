@@ -133,3 +133,70 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# 邮件配置
+EMAIL_BAEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = '25'
+EMAIL_HOST_USER = 'yanggzhi@163.com'
+# 邮箱授权码
+EMAIL_HOST_PASSWORD = 'QNWOZVEADFIHAIKU'
+# 是否启动TLS加密
+EMAIL_USE_TLS = False
+
+# 设置数据库缓存
+# CACHES = {
+#     'default':{
+#         'BACKEND':'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION':'my_cache_table',
+#         'TIMEOUT':300,
+#         'OPTIONS':{
+#             'MAX_ENTRIES':300,  # 缓存最大数据条数
+#             'CULL_FREQUENCY':2  # 缓存条数到达最大时，删除2分之1的数据
+#         }
+#     }
+# }
+
+# 日志配置
+LOGGING = {
+    'version': 1,  # 必须指定为1
+    'disable_existing_loggers': False,  # 禁用默认配置中的所有logger
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(funcName)s %(lineno)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(lineno)d %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR,'/logs/debug.log'),  # 日志文件的位置
+            'maxBytes': 300 * 1024 * 1024,  # 每个日志文件大小
+            'backupCount': 10,  # 日志文件个数
+            'formatter': 'verbose'
+        },
+
+    },
+    'loggers': {
+        'django': {  # 定义了一个名为django的日志器
+            'handlers': ['console', 'file'],
+            'propagate': True,
+            'level': 'INFO'
+        },
+    }
+
+}

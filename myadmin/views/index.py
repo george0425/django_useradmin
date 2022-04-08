@@ -10,10 +10,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,logout
 from django.contrib.auth import login as Dlogin
 from PIL import Image,ImageDraw,ImageFont
+from django.views.decorators.cache import cache_page
 import hashlib
 import random
 
 # Create your views here.
+@cache_page(15)
 def index(request):
     # print(request.COOKIES.get('username'))
     if request.method == 'GET':

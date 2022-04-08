@@ -5,9 +5,10 @@
 
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.deprecation import MiddlewareMixin
 import re
 
-class ShopMiddleware(object):
+class ShopMiddleware():
     def __init__(self,get_response):
         self.get_response = get_response
 
@@ -21,3 +22,7 @@ class ShopMiddleware(object):
                 return redirect(reverse('myadmin_login'))
         response = self.get_response(request)
         return response
+
+class MyMiddleware(MiddlewareMixin):
+    def process_request(self,request):
+        print(request.path_info)

@@ -9,9 +9,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.views.decorators.cache import cache_page
+from django.core import mail
+import traceback
 import hashlib
 import random
 
+@cache_page(30)
 def index(request,page_index=1):
     try:
         tail = []
@@ -35,6 +39,12 @@ def index(request,page_index=1):
         user_name = request.session.get('username')
         login_user = User.objects.get(username=user_name)
         context = {"user_list":user_list,'page_list':page_list,"cur_page":page_index,'tail':tail,"login_user":login_user}
+        # mail.send_mail(
+        #     subject='subject',
+        #     message=str(context),
+        #     from_email='yanggzhi@163.com',
+        #     recipient_list=['516901569@qq.com']
+        # )
         return render(request,'myadmin/user/index.html',context=context)
     except Exception as e:
         return HttpResponse(e)
