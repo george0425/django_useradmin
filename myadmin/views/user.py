@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.views.decorators.cache import cache_page
+import logging
 from django.core import mail
 import traceback
 import hashlib
@@ -45,6 +46,7 @@ def index(request,page_index=1):
         #     from_email='yanggzhi@163.com',
         #     recipient_list=['516901569@qq.com']
         # )
+
         return render(request,'myadmin/user/index.html',context=context)
     except Exception as e:
         return HttpResponse(e)

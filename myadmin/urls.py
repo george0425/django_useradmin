@@ -19,4 +19,6 @@ urlpatterns = [
     path('dologin',index.dologin,name='myadmin_dologin'),
     path('logout',index.dologout,name='myadmin_logout'),
     path('verify',index.verify,name='myadmin_verify'),
+    path('task_add_view',index.task_add_view,name='task_add_view'),
+    path('get_result_by_taskid',index.get_result_by_taskid,name='get_result_by_taskid')
 ]

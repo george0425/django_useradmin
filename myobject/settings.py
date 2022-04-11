@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'myadmin',
     'mobile',
     'web',
+
 ]
 
 MIDDLEWARE = [
@@ -156,6 +157,8 @@ EMAIL_USE_TLS = False
 #         }
 #     }
 # }
+# 这样可以看到 Django 的所有调试日志，这将会很冗长，因为它包含了所有的数据库查询记录：
+# DJANGO_LOG_LEVEL=DEBUG
 
 # 日志配置
 LOGGING = {
@@ -184,7 +187,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR,'/logs/debug.log'),  # 日志文件的位置
+            'filename': os.path.join(BASE_DIR,'./logs/debug.log'),  # 日志文件的位置
             'maxBytes': 300 * 1024 * 1024,  # 每个日志文件大小
             'backupCount': 10,  # 日志文件个数
             'formatter': 'verbose'
@@ -200,3 +203,21 @@ LOGGING = {
     }
 
 }
+
+# 配置redis
+
+# Broker配置，使用Redis作为消息中间件
+BROKER_URL = 'redis://127.0.0.1:6379/0'
+
+# BACKEND配置，这里使用redis
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+
+# 结果序列化方案
+CELERY_RESULT_SERIALIZER = 'json'
+
+# 任务结果过期时间，秒
+CELERY_TASK_RESULT_EXPIRES = 60 * 60 * 24
+
+# 时区配置
+CELERY_TIMEZONE = 'Asia/Shanghai'
+

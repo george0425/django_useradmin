@@ -4,7 +4,7 @@
 # Author   :George
 
 from django.shortcuts import render,redirect,reverse
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from myadmin.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,logout
@@ -13,6 +13,8 @@ from PIL import Image,ImageDraw,ImageFont
 from django.views.decorators.cache import cache_page
 import hashlib
 import random
+from ..tasks import *
+from celery import result
 
 # Create your views here.
 @cache_page(15)
@@ -119,3 +121,20 @@ def verify(request):
     im.save(buf, 'png')
     # 将内存中的图片数据返回给客户端，MIME类型为图片png
     return HttpResponse(buf.getvalue(), 'image/png')
+
+def task_add_view(request):
+    add.delay(100,200)
+    return HttpResponse(f'调用函数结果')
+
+
+def get_result_by_taskid(request):
+    task_id = '055165bd-3179-4cef-94d2-2283d1a69cdd'
+    # 异步执行
+    ar = result.AsyncResult(task_id)
+
+    if ar.ready():
+        return JsonResponse({'status': ar.state, 'result': ar.get()})
+    else:
+        return JsonResponse({'status': ar.state, 'result': ''})
+
+
